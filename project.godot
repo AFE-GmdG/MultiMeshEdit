@@ -1,0 +1,44 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "EditorPlugin",
+"class": "MultiMeshEditPlugin",
+"language": "GDScript",
+"path": "res://addons/MultiMeshEdit/MultiMeshEditPlugin.gd"
+}, {
+"base": "EditorSpatialGizmo",
+"class": "MultiMeshGizmo",
+"language": "GDScript",
+"path": "res://addons/MultiMeshEdit/Editor/MultiMeshGizmo.gd"
+}, {
+"base": "EditorSpatialGizmoPlugin",
+"class": "MultiMeshGizmoPlugin",
+"language": "GDScript",
+"path": "res://addons/MultiMeshEdit/Editor/MultiMeshGizmoPlugin.gd"
+} ]
+_global_script_class_icons={
+"MultiMeshEditPlugin": "",
+"MultiMeshGizmo": "",
+"MultiMeshGizmoPlugin": ""
+}
+
+[application]
+
+config/name="MultiMeshEdit"
+run/main_scene="res://addons/MultiMeshEdit/Demo/Demo.tscn"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/MultiMeshEdit/plugin.cfg" )
+
+[physics]
+
+common/enable_pause_aware_picking=true
