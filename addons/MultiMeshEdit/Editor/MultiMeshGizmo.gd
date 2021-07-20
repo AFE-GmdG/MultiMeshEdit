@@ -1,9 +1,60 @@
 extends EditorSpatialGizmo
 class_name MultiMeshGizmo
 
+# Example for working with handles:
+# https://gist.github.com/HungryProton/b67fefe76082cb04cfc48842fb1aa270
+
+var _pressed: bool = false
+var _p0: Vector3
+var _p1: Vector3
+
+# Wird aufgerufen, sobald man auf einen Handle klickt - sowie in jedem MouseMove
+# Sollte einen Wert zurückgeben.
+func get_handle_value(index: int):
+    var instanceIndex: int = index / 4
+    var handleId: int = index % 4
+    var mmi := get_spatial_node() as MultiMeshInstance
+    var transform := mmi.multimesh.get_instance_transform(instanceIndex)
+
+    if not _pressed:
+        _p0 = transform.origin
+        _p1 = transform.origin
+        match handleId:
+            1: _p1 += Vector3(0.25, 0, 0)
+            2: _p1 += Vector3(0, 0.25, 0)
+            3: _p1 += Vector3(0, 0, 0.25)
+        _pressed = true
+
+    print("GetHandleValue: %s" % transform.origin)
+    return transform
+
 # Wird aufgerufen, wenn man am Handle zieht.
 func set_handle(index: int, camera: Camera, point: Vector2) -> void:
-    print("SetHandle: %d, %s" % [index, point])
+    var instanceIndex: int = index / 4
+    var handleId: int = index % 4
+    var mmi := get_spatial_node() as MultiMeshInstance
+    var transform := mmi.multimesh.get_instance_transform(instanceIndex)
+    transform *= mmi.global_transform
+    var globalInverse := transform.affine_inverse()
+    var rayFrom := camera.project_ray_origin(point)
+    var rayDir := camera.project_ray_normal(point)
+    print("%s - %s" % [rayFrom, rayDir])
+
+#    var origin := transform.origin
+#    match handleId:
+#        1:
+#            origin += Vector3(0.25, 0, 0)
+#        2:
+#            origin += Vector3(0, 0.25, 0)
+#        3:
+#            origin += Vector3(0, 0, 0.25)
+#    var length := (origin - camera.global_transform.origin).length()
+#
+#    print("SetHandle: %d, %d, %f, %s, %s" % [instanceIndex, handleId, length, point, camera.project_position(point, length)])
+
+func commit_handle(index: int, restore, cancel: bool = false) -> void:
+    _pressed = false
+    print("CommitHandle: %d, %s, %s" % [index, restore, cancel])
 
 # Wird aufgerufen, wenn man am Handle zieht.
 # Habe noch nicht herausgefunden, wo der Name angezeigt wird - wenn überhaupt.
@@ -150,3 +201,10 @@ func redraw() -> void:
     add_mesh(am, false, null, gizmo.get_material("gizmoLines", self))
 
     add_collision_triangles(tm)
+
+    lines.resize(0)
+    if _pressed:
+        var d := _p1 - _p0
+        lines.push_back(_p0 - (10 * d))
+        lines.push_back(_p0 + (10 * d))
+        add_lines(lines, gizmo.get_material("lines", self))
