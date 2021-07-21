@@ -7,6 +7,8 @@ class_name MultiMeshGizmo
 var _pressed: bool = false
 var _p0: Vector3
 var _p1: Vector3
+var _transform: Transform
+var _movedDistance: float
 
 # Wird aufgerufen, sobald man auf einen Handle klickt - sowie in jedem MouseMove
 # Sollte einen Wert zurückgeben.
@@ -24,6 +26,8 @@ func get_handle_value(index: int):
             2: _p1 += Vector3(0, 0.25, 0)
             3: _p1 += Vector3(0, 0, 0.25)
         _pressed = true
+        _transform = transform
+        _movedDistance = 0
 
     print("GetHandleValue: %s" % transform.origin)
     return transform
@@ -32,29 +36,39 @@ func get_handle_value(index: int):
 func set_handle(index: int, camera: Camera, point: Vector2) -> void:
     var instanceIndex: int = index / 4
     var handleId: int = index % 4
+    if handleId == 0:
+        print ("Not implemented yet")
+        return
     var mmi := get_spatial_node() as MultiMeshInstance
-    var transform := mmi.multimesh.get_instance_transform(instanceIndex)
-    transform *= mmi.global_transform
-    var globalInverse := transform.affine_inverse()
+    var globalTransform := _transform * mmi.global_transform
+    var globalInverse := globalTransform.affine_inverse()
     var rayFrom := camera.project_ray_origin(point)
     var rayDir := camera.project_ray_normal(point)
-    print("%s - %s" % [rayFrom, rayDir])
-
-#    var origin := transform.origin
-#    match handleId:
-#        1:
-#            origin += Vector3(0.25, 0, 0)
-#        2:
-#            origin += Vector3(0, 0.25, 0)
-#        3:
-#            origin += Vector3(0, 0, 0.25)
-#    var length := (origin - camera.global_transform.origin).length()
-#
-#    print("SetHandle: %d, %d, %f, %s, %s" % [instanceIndex, handleId, length, point, camera.project_position(point, length)])
+    var d := _p1 - _p0
+    var p1 = _p0 - (10 * d)
+    var p2 = _p0 + (10 * d)
+    var g1 = globalInverse.xform(rayFrom)
+    var g2 = globalInverse.xform(rayFrom + rayDir * 1000)
+    var points := Geometry.get_closest_points_between_segments(p1, p2, g1, g2)
+    _movedDistance = points[0][handleId - 1] - _p1[handleId - 1]
+    var translated := Vector3(0, 0, 0)
+    translated[handleId - 1] = _movedDistance
+    mmi.multimesh.set_instance_transform(instanceIndex, _transform.translated(translated))
+    print("%s - %s - %f" % [points[0], points[1], _movedDistance])
 
 func commit_handle(index: int, restore, cancel: bool = false) -> void:
     _pressed = false
     print("CommitHandle: %d, %s, %s" % [index, restore, cancel])
+    var instanceIndex: int = index / 4
+    var handleId: int = index % 4
+    var mmi := get_spatial_node() as MultiMeshInstance
+    if cancel or handleId == 0:
+        mmi.multimesh.set_instance_transform(instanceIndex, _transform)
+        return
+    var translated := Vector3(0, 0, 0)
+    translated[handleId - 1] = _movedDistance
+    mmi.multimesh.set_instance_transform(instanceIndex, _transform.translated(translated))
+
 
 # Wird aufgerufen, wenn man am Handle zieht.
 # Habe noch nicht herausgefunden, wo der Name angezeigt wird - wenn überhaupt.
