@@ -5,11 +5,9 @@ var _inspectorPlugin: MultiMeshInspectorPlugin
 var _colorFormatDropdown: OptionButton
 
 func _init(inspectorPlugin: MultiMeshInspectorPlugin) -> void:
-    print("MultiMeshColorFormatProperty -> Init")
     _inspectorPlugin = inspectorPlugin
 
 func _enter_tree() -> void:
-    print("MultiMeshColorFormatProperty -> Enter Tree")
     _colorFormatDropdown = OptionButton.new()
     _colorFormatDropdown.clip_text = true
     _colorFormatDropdown.expand_icon = true
