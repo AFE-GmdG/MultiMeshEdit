@@ -17,6 +17,7 @@ func get_handle_value(index: int):
     var handleId: int = index % 4
     var mmi := get_spatial_node() as MultiMeshInstance
     var transform := mmi.multimesh.get_instance_transform(instanceIndex)
+    var value: String = "Not Supported yet"
 
     if not _pressed:
         _p0 = transform.origin
@@ -29,8 +30,13 @@ func get_handle_value(index: int):
         _transform = transform
         _movedDistance = 0
 
-    print("GetHandleValue: %s" % transform.origin)
-    return transform
+    match handleId:
+        1: value = "Moving: local X %.2f" % _movedDistance
+        2: value = "Moving: local Y %.2f" % _movedDistance
+        3: value = "Moving: local Z %.2f" % _movedDistance
+
+    redraw()
+    return value
 
 # Wird aufgerufen, wenn man am Handle zieht.
 func set_handle(index: int, camera: Camera, point: Vector2) -> void:
@@ -54,27 +60,26 @@ func set_handle(index: int, camera: Camera, point: Vector2) -> void:
     var translated := Vector3(0, 0, 0)
     translated[handleId - 1] = _movedDistance
     mmi.multimesh.set_instance_transform(instanceIndex, _transform.translated(translated))
-    print("%s - %s - %f" % [points[0], points[1], _movedDistance])
 
 func commit_handle(index: int, restore, cancel: bool = false) -> void:
     _pressed = false
-    print("CommitHandle: %d, %s, %s" % [index, restore, cancel])
     var instanceIndex: int = index / 4
     var handleId: int = index % 4
     var mmi := get_spatial_node() as MultiMeshInstance
     if cancel or handleId == 0:
         mmi.multimesh.set_instance_transform(instanceIndex, _transform)
+        redraw()
         return
     var translated := Vector3(0, 0, 0)
     translated[handleId - 1] = _movedDistance
     mmi.multimesh.set_instance_transform(instanceIndex, _transform.translated(translated))
+    redraw()
 
 
 # Wird aufgerufen, wenn man am Handle zieht.
 # Habe noch nicht herausgefunden, wo der Name angezeigt wird - wenn überhaupt.
-#func get_handle_name(index: int) -> String:
-#    print("Instance %d" % index)
-#    return "Instance %d" % index
+func get_handle_name(index: int) -> String:
+    return "Instance %d" % (index / 4)
 
 # Wird oft durch den Editor aufgerufen; gibst du false zurück, wird der Handle rot angezeigt, bei true blau
 #func is_handle_highlighted(index: int) -> bool:
@@ -85,14 +90,11 @@ func commit_handle(index: int, restore, cancel: bool = false) -> void:
 func redraw() -> void:
     clear()
     var mmi := get_spatial_node() as MultiMeshInstance
-    # print("Redraw: %s" % mmi.name)
-
     if mmi.multimesh == null || mmi.multimesh.mesh == null:
         return
 
     var gizmo := get_plugin()
     var handleMaterial = gizmo.get_material("handles", self)
-    # print(handleMaterial)
 
     var aabb := mmi.multimesh.mesh.get_aabb()
     var points := PoolVector3Array()
@@ -216,9 +218,9 @@ func redraw() -> void:
 
     add_collision_triangles(tm)
 
-    lines.resize(0)
     if _pressed:
         var d := _p1 - _p0
+        lines.resize(0)
         lines.push_back(_p0 - (10 * d))
         lines.push_back(_p0 + (10 * d))
         add_lines(lines, gizmo.get_material("lines", self))

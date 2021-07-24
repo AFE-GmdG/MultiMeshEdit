@@ -1,0 +1,178 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/MultiMeshEdit/Test/MultiMeshEditorTest.gd" type="Script" id=1]
+[ext_resource path="res://addons/MultiMeshEdit/Editor/MultiMeshInstance.svg" type="Texture" id=2]
+
+[node name="MultiMeshEditorTest" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Margin 1" type="MarginContainer" parent="."]
+margin_right = 250.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 4
+custom_constants/margin_top = 2
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GridContainer" type="GridContainer" parent="Margin 1"]
+margin_left = 4.0
+margin_top = 2.0
+margin_right = 246.0
+margin_bottom = 22.0
+columns = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MultiMeshLabel" type="Label" parent="Margin 1/GridContainer"]
+margin_top = 3.0
+margin_right = 119.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "MultiMesh"
+clip_text = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NewMultiMeshButton" type="Button" parent="Margin 1/GridContainer"]
+margin_left = 123.0
+margin_right = 242.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+toggle_mode = true
+shortcut_in_tooltip = false
+text = "New"
+icon = ExtResource( 2 )
+clip_text = true
+expand_icon = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Margin 2" type="MarginContainer" parent="."]
+margin_top = 24.0
+margin_right = 250.0
+margin_bottom = 124.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 4
+custom_constants/margin_top = 2
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GridContainer" type="GridContainer" parent="Margin 2"]
+margin_left = 4.0
+margin_top = 2.0
+margin_right = 246.0
+margin_bottom = 98.0
+custom_constants/vseparation = 4
+columns = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorFormatLabel" type="Label" parent="Margin 2/GridContainer"]
+margin_top = 3.0
+margin_right = 119.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Color Format"
+clip_text = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorFormatDropdown" type="OptionButton" parent="Margin 2/GridContainer"]
+margin_left = 123.0
+margin_right = 242.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Enum"
+clip_text = true
+expand_icon = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DataFormatLabel" type="Label" parent="Margin 2/GridContainer"]
+margin_top = 27.0
+margin_right = 119.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "Data Format"
+clip_text = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DataFormatDropdown" type="OptionButton" parent="Margin 2/GridContainer"]
+margin_left = 123.0
+margin_top = 24.0
+margin_right = 242.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+text = "Enum"
+clip_text = true
+expand_icon = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MeshLabel" type="Label" parent="Margin 2/GridContainer"]
+margin_top = 51.0
+margin_right = 119.0
+margin_bottom = 65.0
+size_flags_horizontal = 3
+text = "Mesh"
+clip_text = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MeshButton" type="Button" parent="Margin 2/GridContainer"]
+margin_left = 123.0
+margin_top = 48.0
+margin_right = 242.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+text = "Select Mesh"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="InstanceCountLabel" type="Label" parent="Margin 2/GridContainer"]
+margin_top = 77.0
+margin_right = 119.0
+margin_bottom = 91.0
+size_flags_horizontal = 3
+text = "Instance Count"
+clip_text = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="InstanceCountInput" type="SpinBox" parent="Margin 2/GridContainer"]
+margin_left = 123.0
+margin_top = 72.0
+margin_right = 242.0
+margin_bottom = 96.0
+size_flags_horizontal = 3
+rounded = true
+allow_greater = true
+__meta__ = {
+"_edit_lock_": true
+}

@@ -7,6 +7,7 @@ class_name MultiMeshEditPlugin
 const MENU_INFO = 0
 
 var _gizmoPlugin: MultiMeshGizmoPlugin = null
+var _inspectorPlugin: MultiMeshInspectorPlugin = null
 var _toolbar: HBoxContainer = null
 var _menu_button: Button = null
 var _multiMeshInstanceIcon: Texture = preload("res://addons/MultiMeshEdit/Editor/MultiMeshInstance.svg")
@@ -26,6 +27,9 @@ func _enter_tree() -> void:
     _gizmoPlugin = MultiMeshGizmoPlugin.new()
     add_spatial_gizmo_plugin(_gizmoPlugin)
 
+    _inspectorPlugin = MultiMeshInspectorPlugin.new()
+    add_inspector_plugin(_inspectorPlugin)
+
     _menu_button = Button.new()
     _menu_button.text = "MultiMeshEditor"
     _menu_button.icon = _multiMeshInstanceIcon
@@ -38,6 +42,7 @@ func _exit_tree() -> void:
     _toolbar.queue_free()
     _toolbar = null
 
+    remove_inspector_plugin(_inspectorPlugin)
     remove_spatial_gizmo_plugin(_gizmoPlugin)
 
     print("========================")

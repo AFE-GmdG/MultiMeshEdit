@@ -1,0 +1,42 @@
+[gd_scene format=2]
+
+[node name="MultiMeshEditor" type="GridContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_top = 3.0
+margin_right = 55.0
+margin_bottom = 17.0
+text = "Label #1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 59.0
+margin_right = 250.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Test #1"
+
+[node name="Label2" type="Label" parent="."]
+margin_top = 27.0
+margin_right = 55.0
+margin_bottom = 41.0
+text = "Label #2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 59.0
+margin_top = 24.0
+margin_right = 250.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+text = "Test #2"

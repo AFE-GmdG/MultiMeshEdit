@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "EditorProperty",
+"class": "MultiMeshColorFormatProperty",
+"language": "GDScript",
+"path": "res://addons/MultiMeshEdit/Editor/MultiMeshColorFormatProperty.gd"
+}, {
 "base": "EditorPlugin",
 "class": "MultiMeshEditPlugin",
 "language": "GDScript",
 "path": "res://addons/MultiMeshEdit/MultiMeshEditPlugin.gd"
+}, {
+"base": "EditorProperty",
+"class": "MultiMeshEditorProperty",
+"language": "GDScript",
+"path": "res://addons/MultiMeshEdit/Editor/MultiMeshEditorProperty.gd"
 }, {
 "base": "EditorSpatialGizmo",
 "class": "MultiMeshGizmo",
@@ -23,17 +33,29 @@ _global_script_classes=[ {
 "class": "MultiMeshGizmoPlugin",
 "language": "GDScript",
 "path": "res://addons/MultiMeshEdit/Editor/MultiMeshGizmoPlugin.gd"
+}, {
+"base": "EditorInspectorPlugin",
+"class": "MultiMeshInspectorPlugin",
+"language": "GDScript",
+"path": "res://addons/MultiMeshEdit/Editor/MultiMeshInspectorPlugin.gd"
 } ]
 _global_script_class_icons={
+"MultiMeshColorFormatProperty": "",
 "MultiMeshEditPlugin": "",
+"MultiMeshEditorProperty": "",
 "MultiMeshGizmo": "",
-"MultiMeshGizmoPlugin": ""
+"MultiMeshGizmoPlugin": "",
+"MultiMeshInspectorPlugin": ""
 }
 
 [application]
 
 config/name="MultiMeshEdit"
-run/main_scene="res://addons/MultiMeshEdit/Demo/Demo.tscn"
+run/main_scene="res://addons/MultiMeshEdit/Test/MultiMeshEditorTest.tscn"
+
+[display]
+
+window/size/width=250
 
 [editor_plugins]
 
