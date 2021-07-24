@@ -43,6 +43,11 @@ _global_script_classes=[ {
 "class": "MultiMeshInspectorPlugin",
 "language": "GDScript",
 "path": "res://addons/MultiMeshEdit/Editor/MultiMeshInspectorPlugin.gd"
+}, {
+"base": "EditorProperty",
+"class": "MultiMeshInstanceTransformProperty",
+"language": "GDScript",
+"path": "res://addons/MultiMeshEdit/Editor/MultiMeshInstanceTransformProperty.gd"
 } ]
 _global_script_class_icons={
 "MultiMeshColorFormatProperty": "",
@@ -51,7 +56,8 @@ _global_script_class_icons={
 "MultiMeshEditorProperty": "",
 "MultiMeshGizmo": "",
 "MultiMeshGizmoPlugin": "",
-"MultiMeshInspectorPlugin": ""
+"MultiMeshInspectorPlugin": "",
+"MultiMeshInstanceTransformProperty": ""
 }
 
 [application]

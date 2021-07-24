@@ -6,19 +6,32 @@ var _colorData: PoolColorArray = []
 var _customData: PoolColorArray = []
 var _transform2DData: PoolVector2Array = []
 var _transform3DData: PoolVector3Array = []
+var _selectedInstance: int = 0 setget setSelectedInstance, getSelectedInstance
+
+func setSelectedInstance(value: int) -> void:
+    if _multiMesh == null:
+        return
+    _selectedInstance = max(0, min(_multiMesh.instance_count - 1, value))
+
+func getSelectedInstance() -> int:
+    if _multiMesh == null:
+        return 0
+    return _selectedInstance
 
 func can_handle(object: Object) -> bool:
     _multiMesh = object as MultiMesh
     return _multiMesh != null
 
 func parse_property(object: Object, type: int, path: String, hint: int, hint_text: String, usage: int) -> bool:
-    print("parseProperty: %s, %d, %s, %d, %s, %d" % [object, type, path, hint, hint_text, usage])
+    # print("parseProperty: %s, %d, %s, %d, %s, %d" % [object, type, path, hint, hint_text, usage])
     if path == "color_format":
         add_property_editor(path, load("res://addons/MultiMeshEdit/Editor/MultiMeshColorFormatProperty.gd").new(self))
         return true
     if path == "custom_data_format":
         add_property_editor(path, load("res://addons/MultiMeshEdit/Editor/MultiMeshDataFormatProperty.gd").new(self))
         return true
+    if path == "mesh":
+        add_custom_control(load("res://addons/MultiMeshEdit/Editor/MultiMeshInstanceTransformProperty.gd").new(self))
     return false
 
 func _create_or_update_backup() -> void:
