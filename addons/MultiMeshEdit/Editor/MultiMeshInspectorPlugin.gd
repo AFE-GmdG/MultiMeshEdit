@@ -16,6 +16,9 @@ func parse_property(object: Object, type: int, path: String, hint: int, hint_tex
     if path == "color_format":
         add_property_editor(path, load("res://addons/MultiMeshEdit/Editor/MultiMeshColorFormatProperty.gd").new(self))
         return true
+    if path == "custom_data_format":
+        add_property_editor(path, load("res://addons/MultiMeshEdit/Editor/MultiMeshDataFormatProperty.gd").new(self))
+        return true
     return false
 
 func _create_or_update_backup() -> void:
@@ -82,6 +85,7 @@ func _restore_backup() -> void:
                 ),
                 _transform3DData[index * 4 + 3]
             )
+            _multiMesh.set_instance_transform(index, t)
 
 func update_color_format(newColorFormat: int) -> void:
     _create_or_update_backup()
@@ -90,6 +94,17 @@ func update_color_format(newColorFormat: int) -> void:
     _multiMesh.visible_instance_count = 0
     _multiMesh.instance_count = 0
     _multiMesh.color_format = newColorFormat
+    _multiMesh.instance_count = instanceCount
+    _restore_backup()
+    _multiMesh.visible_instance_count = visibleInstanceCount
+
+func update_data_format(newDataFormat: int) -> void:
+    _create_or_update_backup()
+    var instanceCount := _multiMesh.instance_count
+    var visibleInstanceCount := _multiMesh.visible_instance_count
+    _multiMesh.visible_instance_count = 0
+    _multiMesh.instance_count = 0
+    _multiMesh.custom_data_format = newDataFormat
     _multiMesh.instance_count = instanceCount
     _restore_backup()
     _multiMesh.visible_instance_count = visibleInstanceCount
